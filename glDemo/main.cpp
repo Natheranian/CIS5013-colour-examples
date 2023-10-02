@@ -33,6 +33,9 @@ void drawStarOutline();
 void drawStarShaded();
 void drawTank();
 void drawSemiCircleStudio();
+void drawPolygon(int sides);
+void drawScales();
+void drawL();
 
 void resizeWindow(GLFWwindow* window, int width, int height);
 void keyboardHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -122,6 +125,9 @@ void renderScene()
 	//drawStarShaded();
 	//drawTank();
 	drawSemiCircleStudio();
+	//drawPolygon(6);
+	//drawScales();
+	//drawL();
 }
 
 // Rendering functions
@@ -230,55 +236,151 @@ void drawTank() {
 // Draw a semi-circle with smooth shading, with red vertices on the inner edge and yellow vertices on the outer edge.
 void drawSemiCircleStudio() {
 
-	glShadeModel(GL_SMOOTH);
+	glShadeModel(GL_FLAT);
 
 	glBegin(GL_TRIANGLE_STRIP);
 
-	glColor3ub(255, 0, 0);
 	glVertex2f(-0.25f, 0.0f);
 
-	glColor3ub(255, 255, 0);
 	glVertex2f(-0.75f, 0.0f);
 
 	glColor3ub(255, 0, 0);
 	glVertex2f(-0.216506351f, 0.125f);
 
-	glColor3ub(255, 255, 0);
+	glColor3ub(255, 0, 0);
 	glVertex2f(-0.649519053f, 0.375f);
 
-	glColor3ub(255, 0, 0);
+	glColor3ub(255, 255, 0);
 	glVertex2f(-0.125, 0.216506351f);
 
 	glColor3ub(255, 255, 0);
 	glVertex2f(-0.375f, 0.649519053f);
 
-	glColor3ub(255, 0, 0);
+	glColor3ub(0, 255, 0);
 	glVertex2f(0.0f, 0.25f);
 
-	glColor3ub(255, 255, 0);
+	glColor3ub(0, 255, 0);
 	glVertex2f(0.0f, 0.75f);
 
-	glColor3ub(255, 0, 0);
+	glColor3ub(0, 255, 255);
 	glVertex2f(0.125f, 0.216506351f);
 
-	glColor3ub(255, 255, 0);
+	glColor3ub(0, 255, 255);
 	glVertex2f(0.375f, 0.649519053f);
 
-	glColor3ub(255, 0, 0);
+	glColor3ub(0, 0, 255);
 	glVertex2f(0.216506351f, 0.125f);
 
-	glColor3ub(255, 255, 0);
+	glColor3ub(0, 0, 255);
 	glVertex2f(0.649519053f, 0.375f);
 
-	glColor3ub(255, 0, 0);
+	glColor3ub(255, 0, 255);
 	glVertex2f(0.25f, 0.0f);
 
-	glColor3ub(255, 255, 0);
+	glColor3ub(255, 0, 255);
 	glVertex2f(0.75f, 0.0f);
 
 	glEnd();
 }
 
+//
+void drawPolygon(int sides)
+{
+	glShadeModel(GL_SMOOTH);
+
+	const float pi = 3.1415926f;
+	const float thetaStep = 2.0f * pi / float(sides);
+
+	glBegin(GL_TRIANGLE_FAN);
+
+	glVertex2f(0.0f, 0.0f);
+
+	for (int i = 0; i <= sides; i++)
+	{
+
+		float x = cosf(thetaStep * float(i));
+		float y = sinf(thetaStep * float(i));
+
+		glVertex2f(x, y);
+
+	};
+
+	glEnd();
+
+};
+
+void drawScales()
+{
+	glBegin(GL_TRIANGLES);
+
+	glVertex2f(-0.3f, -1.0f);
+	glVertex2f(0.3f, -1.0f);
+	glVertex2f(0.0f, 0.5f);
+
+	glVertex2f(-0.5f, 0.6f);
+	glVertex2f(0.5f, 0.6f);
+	glVertex2f(0.0f, 0.5f);
+
+	glVertex2f(-0.5f, 0.6f);
+	glVertex2f(0.5f, 0.6f);
+	glVertex2f(0.0f, 0.7f);
+
+	glEnd();
+
+	glBegin(GL_LINE_LOOP);
+
+	glVertex2f(-0.5f, 0.6f);
+	glVertex2f(-0.7f, 0.2f);
+	glVertex2f(-0.3f, 0.2f);
+
+	glEnd();
+
+	glBegin(GL_LINE_LOOP);
+
+	glVertex2f(0.5f, 0.6f);
+	glVertex2f(0.7f, 0.2f);
+	glVertex2f(0.3f, 0.2f);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+
+	glVertex2f(0.7f, -0.1f);
+	glVertex2f(0.7f, 0.2f);
+	glVertex2f(0.3f, 0.2f);
+	glVertex2f(0.3f, -0.1f);
+
+	glVertex2f(-0.7f, -0.1f);
+	glVertex2f(-0.7f, 0.2f);
+	glVertex2f(-0.3f, 0.2f);
+	glVertex2f(-0.3f, -0.1f);
+
+	glEnd();
+
+}
+
+void drawL()
+{
+	glBegin(GL_TRIANGLE_STRIP);
+
+	glVertex2f(-0.5f, 0.8f);
+	glVertex2f(-0.1f, 0.8f);
+	glVertex2f(-0.5f, -0.6f);
+	
+	glVertex2f(-0.1f, 0.8f);
+	glVertex2f(-0.5f, -0.6f);
+	glVertex2f(-0.1f, -0.6f);
+
+	glVertex2f(-0.1f, -0.6f);
+	glVertex2f(-0.1f, -0.3f);
+	glVertex2f(0.6f, -0.3f);
+
+	glVertex2f(-0.1f, -0.6f);
+	glVertex2f(0.6f, -0.6f);
+	glVertex2f(0.6f, -0.3f);
+
+	glEnd();
+}
 
 // Function to call when window resized
 void resizeWindow(GLFWwindow* window, int width, int height)
