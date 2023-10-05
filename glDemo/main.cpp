@@ -1,8 +1,15 @@
 
 #include "core.h"
+using namespace std;
 
 
 // global variables
+
+mt19937 engine;
+uniform_real_distribution<float> range;
+
+vector<glm::vec2> vertexCoords;
+vector<glm::vec4> pointColour;
 
 // Window size
 const unsigned int initWidth = 512;
@@ -89,6 +96,31 @@ int main() {
 	// *** setup viewplane to the appropriate size
 	gluOrtho2D(-1.1f, 1.1f, -1.1f, 1.1f);
 
+	random_device rd;
+	engine = mt19937(rd());
+	range = uniform_real_distribution<float>(-1.0f, 1.0f);
+
+	vertexCoords = vector<glm::vec2>(100, glm::vec2(0.0f, 0.0f));
+	pointColour = vector<glm::vec4>(100, glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+
+	for (int i = 0; i < 100; i++) {
+
+		float x = range(engine);
+		float y = range(engine);
+
+		vertexCoords[i] = glm::vec2(x, y);
+	}
+
+	range = uniform_real_distribution<float>(0.0f, 1.0f);
+	for (int i = 0; i < 100; i++) {
+
+		float r = range(engine);
+		float g = range(engine);
+		float b = range(engine);
+
+		pointColour[i] = glm::vec4(r, g, b, 1.0f);
+	}
+
 	//
 	// 2. Main loop
 	// 
@@ -119,14 +151,26 @@ void renderScene()
 	// Clear the rendering window
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	glPointSize(5.0f);
+	glColor3ub(0, 180, 0);
+
+	glBegin(GL_POINTS);
+
+	for (int i = 0; i < 100; i++)
+	{
+		glColor3f(pointColour[i].r, pointColour[i].g, pointColour[i].b);
+		glVertex2f(vertexCoords[i].x, vertexCoords[i].y);
+	}
+	glEnd();
+
 	// Render objects here...
 	//drawShadedTriangle();
 	//drawStarOutline();
 	//drawStarShaded();
 	//drawTank();
-	drawSemiCircleStudio();
+	//drawSemiCircleStudio();
 	//drawPolygon(6);
-	//drawScales();
+	drawScales();
 	//drawL();
 }
 
